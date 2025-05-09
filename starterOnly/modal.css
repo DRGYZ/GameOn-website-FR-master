@@ -35,10 +35,10 @@ img {
   margin: 3.5%;
 }
 .header-logo {
-    float: left;
+  float: left;
 }
 .main-navbar {
-    float: right;
+  float: right;
 }
 .topnav a {
   float: left;
@@ -69,7 +69,9 @@ img {
 }
 
 @media screen and (max-width: 768px) {
-  .topnav a {display: none;}
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
@@ -77,7 +79,9 @@ img {
 }
 
 @media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
+  .topnav.responsive {
+    position: relative;
+  }
   .topnav.responsive .icon {
     position: absolute;
     right: 0;
@@ -90,16 +94,16 @@ img {
   }
 }
 
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
+@media screen and (max-width: 540px) {
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
     margin-top: -15px;
   }
-} 
+}
 
 main {
   font-size: 130%;
@@ -111,8 +115,6 @@ main {
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -478,6 +480,45 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+
+/* Styles existants + ajouts */
+.success-message {
+  display: none;
+  text-align: center;
+  padding: 50px 20px;
+  color: #279e7a;
+  font-size: 1.8rem;
+  line-height: 1.5;
+}
+
+.success-message p {
+  margin-bottom: 30px;
+}
+
+.btn-close {
+  background: #279e7a;
+  color: white;
+  padding: 15px 40px;
+  border-radius: 7px;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-close:hover {
+  background: #1d7a5c;
+}
+
+/* Ajout pour le message de succès visible */
+.success-message.visible {
+  display: block;
+}
+
+/* Ajout pour cacher le formulaire */
+form.hidden {
+  display: none;
+}
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
@@ -526,4 +567,3 @@ footer {
     opacity: 1;
   }
 }
-

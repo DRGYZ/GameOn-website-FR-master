@@ -60,7 +60,7 @@
               name="reserve"
               action="index.html"
               method="get"
-              onsubmit="return validate();"
+              onsubmit="return validate(event)" 
             >
               <div
                 class="formData">
@@ -81,6 +81,7 @@
                   type="text"
                   id="last"
                   name="last"
+                  minlength="2"
                 /><br>
               </div>
               <div
@@ -187,7 +188,9 @@
                   id="checkbox1"
                   checked
                 />
-                <label class="checkbox2-label" for="checkbox1" required>
+                <!-- required removed -->
+                <label class="checkbox2-label" for="checkbox1">
+                  
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
@@ -206,6 +209,10 @@
                 value="C'est parti"
               />
             </form>
+          </div>
+          <div class="success-message" style="display: none;">
+            <p>Merci ! Votre réservation a été reçue.</p>
+            <button class="btn-close">Fermer</button>
           </div>
         </div>
       </div>
