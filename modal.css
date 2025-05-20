@@ -36,6 +36,8 @@ img {
 }
 .header-logo {
   float: left;
+  width: auto;
+  height: auto;
 }
 .main-navbar {
   float: right;
@@ -324,7 +326,8 @@ input[data-error]::after {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup {
+.btn-signup,
+.btn-close {
   background: #fe142f;
   display: block;
   margin: 0 auto;
@@ -483,27 +486,30 @@ footer {
 
 /* Styles existants + ajouts */
 .success-message {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 50px 20px;
-  color: #279e7a;
-  font-size: 1.8rem;
-  line-height: 1.5;
+  padding: 40px 20px;
+  min-height: 850.61px;
+  position: relative;
 }
-
+.success-message div {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  left: 0;
+}
 .success-message p {
-  margin-bottom: 30px;
-}
-
-.btn-close {
-  background: #279e7a;
-  color: white;
-  padding: 15px 40px;
-  border-radius: 7px;
-  border: none;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  font-size: 36px;
+  color: #fff;
+  margin-bottom: 40px;
+  font-weight: 400;
+  line-height: 1.4;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .btn-close:hover {
@@ -555,6 +561,14 @@ form.hidden {
   .copyrights {
     margin-top: 50px;
     text-align: center;
+  }
+  .success-message {
+    min-height: 657px;
+  }
+
+  .success-message p {
+    font-size: 18px;
+    margin-bottom: 30px;
   }
 }
 

@@ -134,10 +134,18 @@ function validate() {
   if (isValid) {
     const form = document.forms['reserve'];
     const successMessage = document.querySelector('.success-message');
-    
+    const locationSelected = [...inputs.location].find(
+      (radio) => radio.checked
+    )
+    console.log('first:',inputs.first.value);
+    console.log('last:',inputs.last.value);
+    console.log('email:',inputs.email.value);
+    console.log('birthday:',inputs.birthdate.value);
+    console.log('quantity:',inputs.quantity.value);
+    console.log('location:',locationSelected.value);
     // Masque le formulaire et affiche le message
     form.style.display = 'none';
-    successMessage.style.display = 'block';
+    successMessage.style.display = 'flex';
 
     // Ferme la modale après 3 secondes
     setTimeout(() => {
