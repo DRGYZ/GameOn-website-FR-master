@@ -1,3 +1,17 @@
+@font-face {
+  font-family: "DM Sans";
+  src: url("DM_Sans/DMSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("DM_Sans/DMSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
   --font-default: "DM Sans", Arial, Helvetica, sans-serif;
   --font-slab: var(--font-default);
@@ -14,7 +28,6 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  background-image: url("background.png");
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -37,6 +50,11 @@ img {
 .header-logo {
   float: left;
   width: auto;
+  height: auto;
+}
+.header-logo img {
+  display: block;
+  max-width: 100%;
   height: auto;
 }
 .main-navbar {
@@ -68,42 +86,41 @@ img {
 
 .topnav .icon {
   display: none;
+  border: 0;
+  background: transparent;
+  color: #000;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
+  .topnav {
+    position: relative;
+  }
+  .header-logo {
+    max-width: calc(100% - 48px);
+  }
+  .main-navbar {
+    float: none;
+  }
   .topnav a {
     display: none;
   }
-  .topnav a.icon {
-    float: right;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .topnav.responsive {
-    position: relative;
-  }
-  .topnav.responsive .icon {
+  .topnav .icon {
+    display: grid;
+    place-items: center;
     position: absolute;
     right: 0;
     top: 0;
+  }
+  .topnav.responsive #nav-links {
+    clear: both;
   }
   .topnav.responsive a {
     float: none;
     display: block;
     text-align: left;
-  }
-}
-
-@media screen and (max-width: 540px) {
-  .topnav a {
-    display: none;
-  }
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
   }
 }
 
@@ -162,21 +179,26 @@ main {
 }
 
 .bground {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
+  margin: auto;
+  border: 0;
+  width: min(500px, calc(100% - 24px));
+  max-height: calc(100% - 24px);
   overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: 10px;
+  background: #232323;
+}
+
+.bground::backdrop {
   background-color: rgba(26, 39, 156, 0.4);
 }
 
+body:has(.bground[open]) {
+  overflow: hidden;
+}
+
 .content {
-  margin: 5% auto;
   width: 100%;
-  max-width: 500px;
   animation-name: modalopen;
   animation-duration: var(--modal-duration);
   background: #232323;
@@ -202,7 +224,6 @@ label {
 input {
   padding: 8px;
   border: 0.8px solid #ccc;
-  outline: none;
 }
 .text-control {
   margin: 0;
@@ -212,30 +233,20 @@ input {
   font-size: 20px;
   height: 48px;
 }
-.formData[data-error]::after {
-  content: attr(data-error);
-  font-size: 0.4em;
-  color: #e54858;
-  display: block;
-  margin-top: 7px;
-  margin-bottom: 7px;
-  text-align: right;
-  line-height: 0.3;
-  opacity: 0;
-  transition: 0.3s;
+.field-error {
+  font-size: 0.875rem;
+  color: #ffadb5;
+  margin: 4px 0 8px;
+  padding: 0;
+  text-align: left;
 }
-.formData[data-error-visible="true"]::after {
-  opacity: 1;
-}
-.formData[data-error-visible="true"] .text-control {
+.text-control[aria-invalid="true"] {
   border: 2px solid #e54858;
 }
-/* 
-input[data-error]::after {
-    content: attr(data-error);
-    font-size: 0.4em;
-    color: red;
-} */
+.location-group {
+  border: 0;
+  min-width: 0;
+}
 .checkbox-label,
 .checkbox2-label {
   position: relative;
@@ -274,7 +285,18 @@ input[data-error]::after {
   opacity: 0;
 }
 .checkbox-input {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.bground :focus-visible,
+.checkbox-input:focus-visible + label .checkbox-icon {
+  outline: 2px solid #ffdc71;
+  outline-offset: 3px;
 }
 .checkbox-input:checked + .checkbox-label .checkbox-icon::after,
 .checkbox-input:checked + .checkbox2-label .checkbox-icon::after {
@@ -308,15 +330,17 @@ input[data-error]::after {
   height: 32px;
   opacity: 1;
   cursor: pointer;
-  transform: scale(0.7);
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
 }
 .close:before,
 .close:after {
   position: absolute;
-  left: 15px;
   content: " ";
-  height: 33px;
-  width: 3px;
+  height: 23px;
+  width: 2px;
   background-color: #fff;
 }
 .close:before {
@@ -441,7 +465,7 @@ input[data-error]::after {
   z-index: 1;
 }
 .hero-headline {
-  font-size: 6rem;
+  font-size: clamp(4.5rem, 7.4vw, 6rem);
   font-weight: normal;
   white-space: nowrap;
 }
@@ -452,7 +476,6 @@ input[data-error]::after {
   padding: 0;
 }
 .btn-signup {
-  outline: none;
   text-transform: capitalize;
   font-size: 1.3rem;
   padding: 15px 23px;
@@ -492,7 +515,7 @@ footer {
   justify-content: center;
   text-align: center;
   padding: 40px 20px;
-  min-height: 850.61px;
+  min-height: min(540px, 82vh);
   position: relative;
 }
 .success-message div {
@@ -516,13 +539,7 @@ footer {
   background: #1d7a5c;
 }
 
-/* Ajout pour le message de succès visible */
-.success-message.visible {
-  display: block;
-}
-
-/* Ajout pour cacher le formulaire */
-form.hidden {
+.success-message[hidden] {
   display: none;
 }
 @media screen and (max-width: 800px) {
@@ -534,6 +551,7 @@ form.hidden {
     background: #fff;
     color: #000;
     padding: 20px;
+    min-width: 0;
   }
   .hero-content::after {
     content: unset;
@@ -542,7 +560,7 @@ form.hidden {
     display: none;
   }
   .hero-headline {
-    font-size: 4.5rem;
+    font-size: clamp(2.125rem, 9vw, 4.5rem);
     white-space: normal;
   }
   .hero-text {
@@ -562,10 +580,6 @@ form.hidden {
     margin-top: 50px;
     text-align: center;
   }
-  .success-message {
-    min-height: 657px;
-  }
-
   .success-message p {
     font-size: 18px;
     margin-bottom: 30px;
@@ -579,5 +593,11 @@ form.hidden {
   }
   to {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content {
+    animation: none;
   }
 }
