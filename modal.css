@@ -355,6 +355,12 @@ input:focus-visible,
   gap: 12px;
 }
 
+.signup-demo {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
 .btn-signup {
   display: inline-flex;
   align-items: center;
