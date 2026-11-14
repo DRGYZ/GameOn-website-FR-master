@@ -1,163 +1,182 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
+const nav = document.querySelector(".topnav");
+const menuButton = nav.querySelector(".icon");
+const dialog = document.querySelector("dialog");
+const form = document.querySelector("#reservation");
+const formBody = document.querySelector(".modal-body");
+const confirmation = document.querySelector(".success-message");
+const ticketName = document.querySelector("#ticket-name");
+const ticketCity = document.querySelector("#ticket-city");
+const ticketQty = document.querySelector("#ticket-qty");
+
+function setMenu(open) {
+  nav.classList.toggle("responsive", open);
+  menuButton.setAttribute("aria-expanded", String(open));
+}
+
+menuButton.addEventListener("click", () => {
+  setMenu(menuButton.getAttribute("aria-expanded") !== "true");
+});
+
+nav.querySelectorAll("#nav-links a").forEach((link) => {
+  link.addEventListener("click", () => {
+    if (menuButton.getAttribute("aria-expanded") === "true") {
+      setMenu(false);
+    }
+  });
+});
+
+nav.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+    setMenu(false);
+    menuButton.focus();
+  }
+});
+
+const { first, last, email, birthdate, quantity } = form.elements;
+const locations = form.elements.namedItem("location");
+const terms = document.querySelector("#checkbox1");
+
+const names = (input, label) => ({
+  controls: [input],
+  error: () =>
+    input.value.trim().length < 2
+      ? `Le champ ${label} doit contenir au moins deux caractères.`
+      : "",
+});
+
+const fields = [
+  names(first, "prénom"),
+  names(last, "nom"),
+  {
+    controls: [email],
+    error: () => {
+      if (email.validity.valueMissing) return "Saisissez votre adresse e-mail.";
+      return email.validity.typeMismatch ? "Saisissez une adresse e-mail valide." : "";
+    },
+  },
+  {
+    controls: [birthdate],
+    error: () => {
+      if (!birthdate.value) return "Saisissez votre date de naissance.";
+      return new Date(`${birthdate.value}T00:00:00`) > new Date()
+        ? "La date de naissance ne peut pas être dans le futur."
+        : "";
+    },
+  },
+  {
+    controls: [quantity],
+    error: () => {
+      const { badInput, valueMissing, rangeUnderflow, rangeOverflow, stepMismatch } =
+        quantity.validity;
+      if (badInput) return "Saisissez un nombre valide.";
+      if (valueMissing) return "Saisissez le nombre de tournois.";
+      if (rangeUnderflow || rangeOverflow) return "Le nombre doit être compris entre 0 et 99.";
+      return stepMismatch ? "Saisissez un nombre entier." : "";
+    },
+  },
+  {
+    controls: Array.from(locations),
+    error: () => (locations.value ? "" : "Sélectionnez un tournoi."),
+  },
+  {
+    controls: [terms],
+    error: () => (terms.checked ? "" : "Acceptez les conditions pour continuer."),
+  },
+];
+
+for (const field of fields) {
+  const [firstControl] = field.controls;
+  const error = document.createElement("p");
+  error.id = `${firstControl.id}-error`;
+  error.className = "field-error";
+  error.hidden = true;
+  firstControl.closest(".formData").append(error);
+  field.message = error;
+  for (const control of field.controls) {
+    control.setAttribute("aria-describedby", error.id);
+    const clearOnEdit = () => {
+      if (!error.hidden) validateField(field);
+    };
+    control.addEventListener("input", clearOnEdit);
+    control.addEventListener("change", clearOnEdit);
   }
 }
 
-// DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
-const closeBtn = document.querySelector(".close"); // Added
-
-// Launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-// Close modal event
-closeBtn.addEventListener("click", closeModal); // Added
-
-// Launch modal form
-function launchModal() {
-  modalbg.style.display = "block";
-}
-
-// Close modal form
-function closeModal() {
-  // Added
-  modalbg.style.display = "none";
-}
-
-// Fonctions de gestion d'erreurs
-function showError(input, message) {
-  const formData = input.closest(".formData");
-  formData.setAttribute("data-error", message);
-  formData.setAttribute("data-error-visible", "true");
-}
-
-function clearError(input) {
-  const formData = input.closest(".formData");
-  formData.removeAttribute("data-error");
-  formData.setAttribute("data-error-visible", "false");
-}
-
-// Validation principale
-function validate() {
-  event.preventDefault(); // Empêche la soumission normale
-  let isValid = true;
-  const inputs = {
-    first: document.getElementById("first"),
-    last: document.getElementById("last"),
-    email: document.getElementById("email"),
-    birthdate: document.getElementById("birthdate"),
-    quantity: document.getElementById("quantity"),
-    location: document.querySelectorAll('input[name="location"]'),
-    conditions: document.getElementById("checkbox1"),
-  };
-
-  // Validation Prénom
-  if (inputs.first.value.trim().length < 2) {
-    showError(
-      inputs.first,
-      "Veuillez entrer 2 caractères ou plus pour le champ du prénom."
-    );
-    isValid = false;
-  } else clearError(inputs.first);
-
-  // Validation Nom
-  if (inputs.last.value.trim().length < 2) {
-    showError(
-      inputs.last,
-      "Veuillez entrer 2 caractères ou plus pour le champ du nom."
-    );
-    isValid = false;
-  } else clearError(inputs.last);
-
-  // Validation Email
-  const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  if (!inputs.email.value.trim()) {
-    showError(inputs.email, "Vous devez entrer votre email.");
-    isValid = false;
-  } else if (!emailRegex.test(inputs.email.value.trim())) {
-    showError(inputs.email, "L'email entré n'est pas valide.");
-    isValid = false;
-  } else clearError(inputs.email);
-
-  // Validation Bouton radio
-  const isLocationSelected = [...inputs.location].some(
-    (radio) => radio.checked
-  );
-  if (!isLocationSelected) {
-    showError(inputs.location[0], "Sélectionnez un tournoi");
-    isValid = false;
-  } else clearError(inputs.location[0]);
-
-  // Validation Conditions
-  if (!inputs.conditions.checked) {
-    showError(inputs.conditions, "Vous devez accepter les conditions");
-    isValid = false;
-  } else clearError(inputs.conditions);
-  // Validation Date de naissance
-  if (!inputs.birthdate.value) {
-    showError(inputs.birthdate, "Vous devez entrer votre date de naissance.");
-    isValid = false;
-  } else clearError(inputs.birthdate);
-  if (isNaN(inputs.quantity.value)) {
-    showError(inputs.quantity, "Veuillez entrer un nombre valide.");
-    isValid = false;
-  } else if (inputs.quantity.value < 0 || inputs.quantity.value > 99) {
-    showError(inputs.quantity, "Le nombre doit être compris entre 0 et 99.");
-    isValid = false;
-  } else clearError(inputs.quantity);
-
-  // Validation Nombre de concours
-  if (inputs.quantity.value.trim() === "") {
-    showError(inputs.quantity, "Veuillez entrer un nombre de concours.");
-    isValid = false;
-  } else if (isNaN(Number(inputs.quantity.value))) {
-    showError(inputs.quantity, "Veuillez entrer un nombre valide.");
-    isValid = false;
-  } else if (
-    Number(inputs.quantity.value) < 0 ||
-    Number(inputs.quantity.value) > 99
-  ) {
-    showError(inputs.quantity, "Le nombre doit être compris entre 0 et 99.");
-    isValid = false;
-  } else if (!Number.isInteger(Number(inputs.quantity.value))) {
-    showError(inputs.quantity, "Veuillez entrer un nombre entier.");
-    isValid = false;
-  } else {
-    clearError(inputs.quantity);
+function validateField({ controls, error, message }) {
+  const text = error();
+  message.textContent = text;
+  message.hidden = !text;
+  for (const control of controls) {
+    if (text) control.setAttribute("aria-invalid", "true");
+    else control.removeAttribute("aria-invalid");
   }
-  if (isValid) {
-    const form = document.forms['reserve'];
-    const successMessage = document.querySelector('.success-message');
-    const locationSelected = [...inputs.location].find(
-      (radio) => radio.checked
-    )
-    console.log('first:',inputs.first.value);
-    console.log('last:',inputs.last.value);
-    console.log('email:',inputs.email.value);
-    console.log('birthday:',inputs.birthdate.value);
-    console.log('quantity:',inputs.quantity.value);
-    console.log('location:',locationSelected.value);
-    // Masque le formulaire et affiche le message
-    form.style.display = 'none';
-    successMessage.style.display = 'flex';
-
-    // Ferme la modale après 3 secondes
-    setTimeout(() => {
-      modalbg.style.display = 'none';
-      form.style.display = 'block'; // Réaffiche le formulaire
-      form.reset(); // Réinitialise les champs
-      successMessage.style.display = 'none';
-    }, 3000);
-  }
-  return false;
+  return !text;
 }
-document.querySelector('.btn-close').addEventListener('click', () => {
-  modalbg.style.display = 'none';
-  document.forms['reserve'].reset();
+
+function clearValidationErrors() {
+  for (const field of fields) {
+    field.message.textContent = "";
+    field.message.hidden = true;
+    for (const control of field.controls) {
+      control.removeAttribute("aria-invalid");
+    }
+  }
+}
+
+const locationField = fields.find((field) => field.controls[0]?.name === "location");
+
+document.querySelectorAll(".modal-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    const preselectedCity = button.dataset.location;
+    if (preselectedCity) {
+      const radio = Array.from(locations).find((item) => item.value === preselectedCity);
+      if (radio) {
+        radio.checked = true;
+        if (locationField && !locationField.message.hidden) {
+          validateField(locationField);
+        }
+      }
+    }
+    dialog.showModal();
+  });
+});
+
+dialog.querySelectorAll(".close, .btn-close").forEach((button) => {
+  button.addEventListener("click", () => dialog.close());
+});
+
+dialog.addEventListener("click", (event) => {
+  if (event.target === dialog) {
+    dialog.close();
+  }
+});
+
+dialog.addEventListener("close", () => {
+  form.reset();
+  clearValidationErrors();
+  confirmation.hidden = true;
+  formBody.hidden = false;
+});
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const invalid = fields.filter((field) => !validateField(field));
+  if (invalid.length) {
+    invalid[0].controls[0].focus();
+    return;
+  }
+
+  if (ticketName) {
+    ticketName.textContent = `${first.value.trim()} ${last.value.trim()}`;
+  }
+  if (ticketCity) {
+    ticketCity.textContent = locations.value;
+  }
+  if (ticketQty) {
+    ticketQty.textContent = quantity.value;
+  }
+
+  formBody.hidden = true;
+  confirmation.hidden = false;
+  confirmation.querySelector("p").focus();
 });

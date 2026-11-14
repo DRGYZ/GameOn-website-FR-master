@@ -1,223 +1,537 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <title>Reservation</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GameOn · Marathon national de jeux vidéos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="Logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,500&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="modal.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=DM+Sans"
-      rel="stylesheet"
-    />
   </head>
   <body>
-    <div class="topnav" id="myTopnav">
-      <div class="header-logo">
-        <img alt="logo" src="Logo.png" />
-      </div>
-      <div class="main-navbar">
-        <a href="#" class="active"><span>Accueil</span></a>
-        <a href="#"><span>Détails de l'évènement</span></a>
-        <a href="#"><span>À propos</span></a>
-        <a href="#"><span>Contact</span></a>
-        <a href="#"><span>Évènements passés</span></a>
-        <a href="javascript:void(0);" class="icon" onclick="editNav()">
-          <i class="fa fa-bars"></i>
-        </a>
-      </div>
-    </div>
-    <main>
-      <div class="hero-section">
-        <div class="hero-content">
-          <h1 class="hero-headline">
-            Marathon national<br />
-            de jeux vidéos
-          </h1>
-          <p class="hero-text">
-            Vous aimez jouer ? Notre prochain évènement gaming est ouvert aux
-            réservations... Places limitées !
-          </p>
-          <button class="btn-signup modal-btn">je m'inscris</button>
+    <header class="topnav" id="myTopnav">
+      <div class="container topnav__bar">
+        <div class="header-logo">
+          <a href="#top" class="brand-link">
+            <img alt="GameOn" src="Logo.png" width="250" height="45" />
+            <span class="brand-badge">Arcade Festival · 2026</span>
+          </a>
         </div>
-        <div class="hero-img">
-          <img src="./bg_img.jpg" alt="img" />
-        </div>
-        <button class="btn-signup modal-btn">je m'inscris</button>
-      </div>
 
-      <div class="bground">
-        <div class="content">
-          <span class="close"></span>
-          <div class="modal-body">
-            <form
-              name="reserve"
-              action="index.html"
-              method="get"
-              onsubmit="return validate(event)"
+        <nav class="main-navbar" aria-label="Navigation principale">
+          <button
+            type="button"
+            class="icon"
+            aria-label="Menu"
+            aria-expanded="false"
+            aria-controls="nav-links"
+          >
+            <svg
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
             >
-              <div class="formData">
-                <label>Prénom</label><br />
-                <input
-                  class="text-control"
-                  type="text"
-                  id="first"
-                  name="first"
-                  minlength="2"
-                /><br />
-              </div>
-              <div class="formData">
-                <label>Nom</label><br />
-                <input
-                  class="text-control"
-                  type="text"
-                  id="last"
-                  name="last"
-                  minlength="2"
-                /><br />
-              </div>
-              <div class="formData">
-                <label>E-mail</label><br />
-                <input
-                  class="text-control"
-                  type="email"
-                  id="email"
-                  name="email"
-                /><br />
-              </div>
-              <div class="formData">
-                <label>Date de naissance</label><br />
-                <input
-                  class="text-control"
-                  type="date"
-                  id="birthdate"
-                  name="birthdate"
-                /><br />
-              </div>
-              <div class="formData">
-                <label
-                  >À combien de tournois GameOn avez-vous déjà participé
-                  ?</label
-                ><br />
-                <input
-                  type="number"
-                  class="text-control"
-                  id="quantity"
-                  name="quantity"
-                  min="0"
-                  max="99"
-                />
-              </div>
-              <p class="text-label">
-                A quel tournoi souhaitez-vous participer cette année ?
-              </p>
-              <div class="formData">
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location1"
-                  name="location"
-                  value="New York"
-                />
-                <label class="checkbox-label" for="location1">
-                  <span class="checkbox-icon"></span>
-                  New York</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location2"
-                  name="location"
-                  value="San Francisco"
-                />
-                <label class="checkbox-label" for="location2">
-                  <span class="checkbox-icon"></span>
-                  San Francisco</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location3"
-                  name="location"
-                  value="Seattle"
-                />
-                <label class="checkbox-label" for="location3">
-                  <span class="checkbox-icon"></span>
-                  Seattle</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location4"
-                  name="location"
-                  value="Chicago"
-                />
-                <label class="checkbox-label" for="location4">
-                  <span class="checkbox-icon"></span>
-                  Chicago</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location5"
-                  name="location"
-                  value="Boston"
-                />
-                <label class="checkbox-label" for="location5">
-                  <span class="checkbox-icon"></span>
-                  Boston</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location6"
-                  name="location"
-                  value="Portland"
-                />
-                <label class="checkbox-label" for="location6">
-                  <span class="checkbox-icon"></span>
-                  Portland</label
-                >
+              <path d="M2 4h16M2 10h16M2 16h16" />
+            </svg>
+            <span>Menu</span>
+          </button>
+
+          <div id="nav-links">
+            <a href="#top" class="active"><span>Accueil</span></a>
+            <a href="#evenement"><span>Détails de l'évènement</span></a>
+            <a href="#format"><span>À propos</span></a>
+            <a href="#footer-contact"><span>Contact</span></a>
+            <a href="#evenement"><span>Évènements passés</span></a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero-section">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div>
+              <div class="eyebrow-row">
+                <span class="eyebrow-pill eyebrow-pill--primary">Tournée nationale · 6 étapes</span>
+                <span class="eyebrow-pill eyebrow-pill--secondary">Pass joueur ouvert</span>
               </div>
 
-              <div class="formData">
-                <input
-                  class="checkbox-input"
-                  type="checkbox"
-                  id="checkbox1"
-                  checked
-                />
-                <!-- required removed -->
-                <label class="checkbox2-label" for="checkbox1">
-                  <span class="checkbox-icon"></span>
-                  J'ai lu et accepté les conditions d'utilisation.
-                </label>
-                <br />
-                <input class="checkbox-input" type="checkbox" id="checkbox2" />
-                <label class="checkbox2-label" for="checkbox2">
-                  <span class="checkbox-icon"></span>
-                  Je souhaite être prévenu des prochains évènements.
-                </label>
-                <br />
+              <h1 class="hero-headline">
+                Marathon national de <span>jeux vidéos</span>
+              </h1>
+
+              <p class="hero-text">
+                Vous aimez jouer ? Notre prochain évènement gaming est ouvert aux
+                réservations... Places limitées !
+              </p>
+            </div>
+
+            <div class="hero-metrics">
+              <div class="metric-box">
+                <div class="metric-box__label">Tournée</div>
+                <div class="metric-box__value">6 villes hôtes</div>
               </div>
-              <input class="btn-submit" type="submit" value="C'est parti" />
-            </form>
+              <div class="metric-box">
+                <div class="metric-box__label">Format</div>
+                <div class="metric-box__value">BO3 · Solo / Duo</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-box__label">Dates clés</div>
+                <div class="metric-box__value">14 nov. au 21 déc.</div>
+              </div>
+            </div>
+
+            <div class="hero-actions">
+              <button
+                type="button"
+                class="btn-signup modal-btn"
+                aria-haspopup="dialog"
+                aria-describedby="signup-demo"
+              >
+                Je m'inscris
+              </button>
+              <a href="#evenement" class="btn-secondary">Voir les 6 tournois</a>
+              <p class="signup-demo" id="signup-demo">Inscription de démonstration, sans envoi de données.</p>
+            </div>
           </div>
-          <div class="success-message" style="display: none">
-            <p>Merci pour votre inscription</p>
-            <div>
-              <button class="btn-close">Fermer</button>
+
+          <div class="hero-img">
+            <div class="hero-stage__topbar">
+              <span class="live-dot">Affiche officielle · Édition Collector</span>
+              <span>Édition N°04</span>
+            </div>
+            <div class="hero-stage__media">
+              <img
+                src="./bg_img.jpg"
+                alt="Joueur concentré devant son écran lors d'un tournoi GameOn"
+                width="354"
+                height="329"
+              />
+              <div class="hero-stage__scrim">
+                <div class="hero-stage__caption-kicker">Aperçu du pass</div>
+                <div class="hero-stage__caption-title">
+                  Six scènes arcade, un pass officiel à réserver
+                </div>
+                <div class="hero-stage__caption-sub">
+                  New York · San Francisco · Seattle · Chicago · Boston · Portland
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section class="section-block" id="evenement">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Détails de l'évènement</div>
+              <h2 class="section-title">Les 6 étapes du tournoi</h2>
+            </div>
+            <p class="section-hint">
+              Cliquez sur une ville pour ouvrir l'inscription avec cette étape pré-sélectionnée.
+            </p>
+          </div>
+
+          <div class="stops-grid">
+            <button
+              type="button"
+              class="stop-card modal-btn"
+              data-location="New York"
+              aria-haspopup="dialog"
+            >
+              <div>
+                <div class="stop-card__top">
+                  <span>NYC · ÉTAPE 01</span>
+                  <span class="stop-card__slots">18 places</span>
+                </div>
+                <div class="stop-card__city">New York</div>
+                <div class="stop-card__meta">14 au 16 nov. · Pier 57 Arena</div>
+                <div class="stop-card__meta">Tournoi principal 1v1</div>
+              </div>
+              <div class="stop-card__footer">
+                <span>Inscription ouverte</span>
+                <span class="stop-card__cta">Choisir cette ville &rarr;</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="stop-card modal-btn"
+              data-location="San Francisco"
+              aria-haspopup="dialog"
+            >
+              <div>
+                <div class="stop-card__top">
+                  <span>SFO · ÉTAPE 02</span>
+                  <span class="stop-card__slots">11 places</span>
+                </div>
+                <div class="stop-card__city">San Francisco</div>
+                <div class="stop-card__meta">21 au 23 nov. · Fort Mason Hall</div>
+                <div class="stop-card__meta">Bracket équipes Duo</div>
+              </div>
+              <div class="stop-card__footer">
+                <span>Inscription ouverte</span>
+                <span class="stop-card__cta">Choisir cette ville &rarr;</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="stop-card modal-btn"
+              data-location="Seattle"
+              aria-haspopup="dialog"
+            >
+              <div>
+                <div class="stop-card__top">
+                  <span>SEA · ÉTAPE 03</span>
+                  <span class="stop-card__slots">24 places</span>
+                </div>
+                <div class="stop-card__city">Seattle</div>
+                <div class="stop-card__meta">28 au 30 nov. · Bell Harbor Stage</div>
+                <div class="stop-card__meta">Circuit FPS &amp; Combat</div>
+              </div>
+              <div class="stop-card__footer">
+                <span>Inscription ouverte</span>
+                <span class="stop-card__cta">Choisir cette ville &rarr;</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="stop-card modal-btn"
+              data-location="Chicago"
+              aria-haspopup="dialog"
+            >
+              <div>
+                <div class="stop-card__top">
+                  <span>ORD · ÉTAPE 04</span>
+                  <span class="stop-card__slots">9 places</span>
+                </div>
+                <div class="stop-card__city">Chicago</div>
+                <div class="stop-card__meta">5 au 7 déc. · Navy Pier Pavilion</div>
+                <div class="stop-card__meta">Qualifs Midwest</div>
+              </div>
+              <div class="stop-card__footer">
+                <span>Inscription ouverte</span>
+                <span class="stop-card__cta">Choisir cette ville &rarr;</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="stop-card modal-btn"
+              data-location="Boston"
+              aria-haspopup="dialog"
+            >
+              <div>
+                <div class="stop-card__top">
+                  <span>BOS · ÉTAPE 05</span>
+                  <span class="stop-card__slots">15 places</span>
+                </div>
+                <div class="stop-card__city">Boston</div>
+                <div class="stop-card__meta">12 au 14 déc. · Seaport Lab</div>
+                <div class="stop-card__meta">Tournoi Universités</div>
+              </div>
+              <div class="stop-card__footer">
+                <span>Inscription ouverte</span>
+                <span class="stop-card__cta">Choisir cette ville &rarr;</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="stop-card modal-btn"
+              data-location="Portland"
+              aria-haspopup="dialog"
+            >
+              <div>
+                <div class="stop-card__top">
+                  <span>PDX · ÉTAPE 06</span>
+                  <span class="stop-card__slots">6 places</span>
+                </div>
+                <div class="stop-card__city">Portland</div>
+                <div class="stop-card__meta">19 au 21 déc. · Burnside Arcade</div>
+                <div class="stop-card__meta">Finale Ouest</div>
+              </div>
+              <div class="stop-card__footer">
+                <span>Inscription ouverte</span>
+                <span class="stop-card__cta">Choisir cette ville &rarr;</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block" id="format">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Parcours d'inscription</div>
+              <h2 class="section-title">Trois étapes avant de monter sur scène</h2>
+            </div>
+          </div>
+
+          <div class="pillars-grid">
+            <article class="pillar-card">
+              <div class="pillar-card__num">01 / PROFIL</div>
+              <h3 class="pillar-card__title">Identité et historique</h3>
+              <p class="pillar-card__text">
+                Renseignez prénom, nom, e-mail, date de naissance et nombre de tournois déjà joués avec validation instantanée.
+              </p>
+            </article>
+            <article class="pillar-card">
+              <div class="pillar-card__num">02 / ÉTAPE</div>
+              <h3 class="pillar-card__title">Choix de la ville</h3>
+              <p class="pillar-card__text">
+                Sélectionnez une des six étapes nord-américaines au clavier ou au clic sans quitter la fiche.
+              </p>
+            </article>
+            <article class="pillar-card">
+              <div class="pillar-card__num">03 / PASS</div>
+              <h3 class="pillar-card__title">Confirmation immédiate</h3>
+              <p class="pillar-card__text">
+                Le pass joueur reste affiché jusqu'à fermeture et réinitialise proprement le formulaire pour le joueur suivant.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <dialog class="bground" aria-labelledby="dialog-title">
+        <div class="content">
+          <div class="dialog-header">
+            <div>
+              <div class="dialog-kicker">Arcade Festival · Pass officiel</div>
+              <h2 class="dialog-title" id="dialog-title">Inscription au marathon GameOn</h2>
+            </div>
+            <button
+              type="button"
+              class="close"
+              aria-label="Fermer l'inscription"
+            >&times;</button>
+          </div>
+
+          <div class="dialog-body">
+            <div class="modal-body">
+              <form id="reservation" method="dialog" novalidate>
+                <div class="form-grid-2">
+                  <div class="formData">
+                    <label for="first">Prénom</label>
+                    <input
+                      class="text-control"
+                      type="text"
+                      id="first"
+                      name="first"
+                      minlength="2"
+                      autocomplete="given-name"
+                      placeholder="Ex : Camille"
+                      required
+                      autofocus
+                    />
+                  </div>
+                  <div class="formData">
+                    <label for="last">Nom</label>
+                    <input
+                      class="text-control"
+                      type="text"
+                      id="last"
+                      name="last"
+                      minlength="2"
+                      autocomplete="family-name"
+                      placeholder="Ex : Laurent"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="formData">
+                  <label for="email">E-mail</label>
+                  <input
+                    class="text-control"
+                    type="email"
+                    id="email"
+                    name="email"
+                    autocomplete="email"
+                    placeholder="camille.laurent@exemple.fr"
+                    required
+                  />
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="formData">
+                    <label for="birthdate">Date de naissance</label>
+                    <input
+                      class="text-control"
+                      type="date"
+                      id="birthdate"
+                      name="birthdate"
+                      autocomplete="bday"
+                      required
+                    />
+                  </div>
+                  <div class="formData">
+                    <label for="quantity"
+                      >À combien de tournois GameOn avez-vous déjà participé ?</label
+                    >
+                    <input
+                      type="number"
+                      class="text-control"
+                      id="quantity"
+                      name="quantity"
+                      min="0"
+                      max="99"
+                      step="1"
+                      placeholder="0 à 99"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <fieldset class="formData location-group">
+                  <legend class="text-label">
+                    À quel tournoi souhaitez-vous participer cette année ?
+                  </legend>
+                  <div class="city-radios">
+                    <div class="city-option">
+                      <input
+                        class="checkbox-input"
+                        type="radio"
+                        id="location1"
+                        name="location"
+                        value="New York"
+                        required
+                      />
+                      <label class="checkbox-label" for="location1">New York</label>
+                    </div>
+                    <div class="city-option">
+                      <input
+                        class="checkbox-input"
+                        type="radio"
+                        id="location2"
+                        name="location"
+                        value="San Francisco"
+                      />
+                      <label class="checkbox-label" for="location2">San Francisco</label>
+                    </div>
+                    <div class="city-option">
+                      <input
+                        class="checkbox-input"
+                        type="radio"
+                        id="location3"
+                        name="location"
+                        value="Seattle"
+                      />
+                      <label class="checkbox-label" for="location3">Seattle</label>
+                    </div>
+                    <div class="city-option">
+                      <input
+                        class="checkbox-input"
+                        type="radio"
+                        id="location4"
+                        name="location"
+                        value="Chicago"
+                      />
+                      <label class="checkbox-label" for="location4">Chicago</label>
+                    </div>
+                    <div class="city-option">
+                      <input
+                        class="checkbox-input"
+                        type="radio"
+                        id="location5"
+                        name="location"
+                        value="Boston"
+                      />
+                      <label class="checkbox-label" for="location5">Boston</label>
+                    </div>
+                    <div class="city-option">
+                      <input
+                        class="checkbox-input"
+                        type="radio"
+                        id="location6"
+                        name="location"
+                        value="Portland"
+                      />
+                      <label class="checkbox-label" for="location6">Portland</label>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <div class="formData terms-group">
+                  <div class="check-row">
+                    <input
+                      class="checkbox-input"
+                      type="checkbox"
+                      id="checkbox1"
+                      required
+                    />
+                    <label class="checkbox2-label" for="checkbox1">
+                      J'ai lu et accepté les conditions d'utilisation.
+                    </label>
+                  </div>
+                  <div class="check-row">
+                    <input
+                      class="checkbox-input"
+                      type="checkbox"
+                      id="checkbox2"
+                    />
+                    <label class="checkbox2-label" for="checkbox2">
+                      Je souhaite être prévenu des prochains évènements.
+                    </label>
+                  </div>
+                </div>
+
+                <div class="dialog-actions">
+                  <input class="btn-submit" type="submit" value="C'est parti" />
+                </div>
+              </form>
+            </div>
+
+            <div class="success-message" hidden>
+              <div class="success-badge">INSCRIPTION VALIDÉE</div>
+              <p class="success-heading" tabindex="-1">Merci pour votre inscription</p>
+              <div class="success-ticket">
+                <div class="success-ticket__row">
+                  <span>Joueur</span>
+                  <strong id="ticket-name">-</strong>
+                </div>
+                <div class="success-ticket__row">
+                  <span>Étape choisie</span>
+                  <strong id="ticket-city">-</strong>
+                </div>
+                <div class="success-ticket__row">
+                  <span>Tournois précédents</span>
+                  <strong id="ticket-qty">-</strong>
+                </div>
+              </div>
+              <button type="button" class="btn-close">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </dialog>
     </main>
-    <footer>
-      <p class="copyrights">Copyright 2014 - 2022, GameOn Inc.</p>
+
+    <footer id="footer-contact">
+      <div class="container footer-inner">
+        <p class="copyrights">
+          Copyright 2014 - 2026, GameOn Inc. · Marathon national de jeux vidéos
+        </p>
+        <p class="footer-meta">
+          Navigation clavier préservée · Échap pour fermer le menu ou le formulaire
+        </p>
+      </div>
     </footer>
+
     <script src="modal.js"></script>
   </body>
 </html>
